@@ -37,7 +37,6 @@ def preprocess_data(path):
                 IQR = Q3 - Q1
                 lower_bound = Q1 - 1.5 * IQR
                 upper_bound = Q3 + 1.5 * IQR
-                before = df.shape[0]
                 df = df[(df[col] >= lower_bound) & (df[col] <= upper_bound)]
             return df
         
@@ -52,10 +51,12 @@ def preprocess_data(path):
         X_smote, y_smote = smote.fit_resample(X, y)
 
         # Split data
-        X_train, X_test, y_train, y_test = train_test_split(X_smote, y_smote, test_size=0.2, random_state=42)
+        X_train, X_test, y_train, y_test = train_test_split(
+            X_smote, y_smote, test_size=0.2, random_state=42
+        )
 
-        # Buat folder output
-        output_dir = "dataset_preprocessing"
+        # Buat folder output di dalam preprocessing/
+        output_dir = os.path.join("preprocessing", "dataset_preprocessing")
         os.makedirs(output_dir, exist_ok=True)
         print("✅ Folder dibuat:", os.path.abspath(output_dir))
 
@@ -77,7 +78,7 @@ def preprocess_data(path):
         for file in os.listdir(output_dir):
             print(" -", file)
 
-        # Simpan data gabungan hasil preprocessing
+        # Simpan data gabungan hasil preprocessing di root repo
         combined_df = pd.concat([X_smote, y_smote], axis=1)
         combined_df.to_csv("bankdataset_preprocessed.csv", index=False)
 
