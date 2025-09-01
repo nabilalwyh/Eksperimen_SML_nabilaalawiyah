@@ -33,16 +33,20 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dataset_preprocessing
-          path: |
-            preprocessing/dataset_preprocessing/
-            bankdataset_preprocessed.csv
+          path: preprocessing/dataset_preprocessing/
 
       - name: Commit & Push processed dataset
         run: |
           git config user.name github-actions[bot]
           git config user.email github-actions[bot]@users.noreply.github.com
-          git add bankdataset_preprocessed.csv preprocessing/dataset_preprocessing/
-          git commit -m "Update preprocessed dataset [skip ci]" || echo "No changes"
+
+          # Pindahkan CSV ke dalam preprocessing
+          mv bankdataset_preprocessed.csv preprocessing/
+
+          # Tambahkan semua perubahan di preprocessing (folder + csv)
+          git add preprocessing/
+
+          git commit -m "Update preprocessed dataset" || echo "No changes"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
