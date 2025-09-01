@@ -41,10 +41,10 @@ jobs:
           git config user.email github-actions[bot]@users.noreply.github.com
 
           mkdir -p preprocessing/dataset_preprocessing
-          mv bankdataset_preprocessed.csv preprocessing/dataset_preprocessing/
+          mv bankdataset_preprocessed.csv preprocessing
 
           git add preprocessing/dataset_preprocessing/
-          git commit -m "Update preprocessed dataset [skip ci]" || echo "No changes"
+          git commit -m "Update preprocessed dataset" || echo "No changes"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
